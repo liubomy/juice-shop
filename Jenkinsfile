@@ -4,6 +4,7 @@ pipeline {
     stage('scan') {
       steps {
         sh "docker run -v ${WORKSPACE}:/src --workdir /src returntocorp/semgrep-agent:latest semgrep-agent --config p/ci --config p/security-audit --config p/secrets | tee -a hadolint_lint.txt"
+        archiveArtifacts artifacts: 'hadolint_lint.txt', followSymlinks: false
       }
     }
   }
